@@ -2,10 +2,13 @@ package boardtwo.action;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import boardtwo.model.BoardAttachDao;
+import boardtwo.model.BoardAttachDto;
 import boardtwo.model.BoardDao;
 import boardtwo.model.BoardDto;
 
@@ -34,6 +37,13 @@ public class ListAction implements CommandAction{
 		}
 		number = count - (currentPage - 1) * pageSize; //글 목록에 표시할 글 번호
 		
+		//List에 첨부파일 한 줄 추가하기 위한 작업들..
+		List<BoardAttachDto> attachList = null;
+		BoardAttachDao dbBAD = BoardAttachDao.getInstance();
+		attachList = dbBAD.getArticles();
+		//System.out.println(attachList.isEmpty()); //결과 : false (문제 x)
+		
+		
 		//해당 뷰에서 사용할 속성
 		req.setAttribute("currentPage", new Integer(currentPage));
 		req.setAttribute("startRow", new Integer(startRow));
@@ -42,6 +52,7 @@ public class ListAction implements CommandAction{
 		req.setAttribute("pageSize", new Integer(pageSize));
 		req.setAttribute("number", new Integer(number));
 		req.setAttribute("articleList", articleList);
+		req.setAttribute("attachList", attachList); //첨부파일.
 			
 		return "/boardtwo/list.jsp"; 
 	}

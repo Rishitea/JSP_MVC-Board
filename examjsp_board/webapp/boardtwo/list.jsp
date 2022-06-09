@@ -38,7 +38,7 @@
 		<th id="writer">작성자</th>
 		<th id="date">작성일</th>
 		<th id="counter">조 회</th>
-		<th id="ip">IP</th>
+		<th id="fileName">첨 부</th>
 	</tr>
 	<c:forEach var="article" items="${articleList}">
 	<tr>
@@ -64,7 +64,17 @@
 		</td>
 		<td>${article.regdate}</td>
 		<td>${article.readcount}</td>
-		<td>${article.ip}</td>
+		
+		<c:forEach var="attach" items="${attachList}">
+			
+			<c:if test="${attach.bno eq article.num}">
+				<td>${attach.fileName}</td>
+			</c:if>
+			<c:if test="${attach.bno ne article.num}">
+				<td>NO FILE</td>
+			</c:if>
+		</c:forEach>
+		
 	</tr>
 	</c:forEach>		
 </table>
